@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import ToDoItem from "./ToDoItem";
 
 function App() {
     const [inputText, setInputText] = useState("");
@@ -7,6 +8,15 @@ function App() {
     function handleChange(event) {
         const newValue = event.target.value;
         setInputText(newValue);
+    }
+
+    //when the item is clicked, it should be deleted from the list in parent component
+    function deleteItem(id) {
+        setItems(prevItems => {
+            return prevItems.filter((item, index) => {
+                return index !== id;
+            });
+        });
     }
 
     function addItem() {
@@ -30,7 +40,9 @@ function App() {
       </div>
       <div>
         <ul>
-            {items.map(item => <li>{item}</li>)}
+            {items.map((item, index) => (
+                <ToDoItem key={index} id={index} text={item} onChecked={deleteItem}/>
+            ))}
         </ul>
       </div>
     </div>
